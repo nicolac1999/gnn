@@ -1,0 +1,268 @@
+node_sets {
+    key: "cells"
+    value {
+        description: "Magnets representation"
+
+        features{
+            key: "T"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+
+        features{
+            key: "mass"
+            value: {
+                dtype:DT_FLOAT
+            }
+        }
+
+        features{
+            key: "L"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+
+        features{
+            key: "power_to_bhx"
+            value: {
+                dtype:DT_FLOAT
+            }
+        }
+    }
+}
+
+
+
+node_sets {
+    key: "heater"
+    value {
+        description: "heater supplier"
+
+        features{
+            key: "power"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+    }
+}
+
+node_sets {
+    key: "liquid"
+    value {
+        description: "heat exchanger tube"
+
+        features{
+            key: "evapor_mass_flow"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+
+        features{
+            key: "T"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+
+       features{
+            key: "avg_f"
+            value: {
+                dtype: DT_FLOAT
+            }
+       }
+
+       features{
+            key: "L"
+            value: {
+                dtype: DT_FLOAT
+            }
+       }
+
+       features{
+            key: "D"
+            value: {
+                dtype: DT_FLOAT
+            }
+       }
+
+       features{
+            key: "incoming_mass_flow"
+            value : {
+                dtype: DT_FLOAT
+            }
+       }
+
+       features{
+            key: "evapor_mass_flow_per_m"
+            value: {
+                dtype: DT_FLOAT
+            }
+       }
+    }
+}
+
+edge_sets {
+    key: "conduction"
+    value {
+        description: "heat transferred between magnets"
+        source: "cells"
+        target: "cells"
+
+        features {
+            key: "conductivity"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+
+        features {
+            key: "L"
+            value: {
+                description: "length of the edge"
+                dtype: DT_FLOAT
+            }
+        }
+
+        features {
+            key: "A"
+            value: {
+                description: "cross section area"
+                dtype: DT_FLOAT
+            }
+        }
+
+        features {
+            key: "heat_flux_conduction"
+            value: {
+                description: "horizontal power inside helium bath , for conductivity, derived from delta T "
+                "between the different nodes"
+                dtype: DT_FLOAT
+            }
+        }
+
+        features {
+            key: 'delta_t_conduction'
+            value: {
+                description: "temperatures differences between target and source of the edge"
+                dtype: DT_FLOAT
+            }
+        }
+    }
+}
+
+edge_sets {
+    key: "heat supplied"
+    value {
+        description: "heat transferred by heaters"
+        source: "heater"
+        target: "cells"
+    }
+}
+
+edge_sets {
+    key: "cell2liquid"
+    value {
+        description: "heat transferred between magnets and HX"
+        source: "cells"
+        target: "liquid"
+
+        features {
+            key: "conductivity"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+    }
+}
+
+edge_sets {
+    key: "liquid2cell"
+    value {
+        description: "heat transferred between magnets and HX"
+        source: "liquid"
+        target: "cells"
+
+        features {
+            key: "conductivity"
+            value: {
+                dtype: DT_FLOAT
+            }
+        }
+    }
+}
+
+
+context {
+  features {
+    key: "time"
+    value: {
+        description: "starting time of the graph"
+        dtype: DT_FLOAT
+    }
+  }
+
+  features {
+    key: "time_step"
+    value: {
+        description: "time step"
+        dtype: DT_FLOAT
+    }
+  }
+
+  features {
+    key: "specific_heat_capacity"
+    value: {
+        description: "specific heat capacity of the magnets, it is the amount of heat that must be added"
+        "to one unit of mass of the substance in order to cause an increase of one unit in temperature"
+        dtype: DT_FLOAT
+    }
+  }
+
+  features {
+    key: "static_heat"
+    value: {
+        description: "static heat load coming from the environment and equal to 0.2 W/m, so approximately equal to"
+        "20 W for all the cell, it is constant and applied uniformly to the entire cell"
+        dtype: DT_FLOAT
+    }
+  }
+
+  features{
+      key: "latent_heat_vaporization"
+      value: {
+          dtype: DT_FLOAT
+      }
+  }
+
+  features{
+      key: "liquid_density"
+      value: {
+          dtype: DT_FLOAT
+      }
+  }
+   features{
+      key: "total_static_heat"
+      value: {
+          dtype: DT_FLOAT
+      }
+  }
+
+   features{
+      key: "total_dynamic_heat"
+      value: {
+          dtype: DT_FLOAT
+      }
+  }
+
+   features{
+      key: "total_vaporization_heat"
+      value: {
+          dtype: DT_FLOAT
+      }
+  }
+
+}
